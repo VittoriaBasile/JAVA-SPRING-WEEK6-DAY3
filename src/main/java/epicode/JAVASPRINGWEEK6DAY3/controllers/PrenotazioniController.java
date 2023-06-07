@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import epicode.JAVASPRINGWEEK6DAY3.entities.Prenotazione;
+import epicode.JAVASPRINGWEEK6DAY3.entities.payloads.PrenotazioneRegistrationPayload;
 import epicode.JAVASPRINGWEEK6DAY3.services.PrenotazioniService;
 
 @RestController
@@ -30,4 +33,9 @@ public class PrenotazioniController {
 		return prenotazioniService.findById(prenotazioneId);
 	}
 
+	@PostMapping("")
+	public Prenotazione createPrenotazione(@RequestBody PrenotazioneRegistrationPayload body) {
+
+		return prenotazioniService.create(body);
+	}
 }

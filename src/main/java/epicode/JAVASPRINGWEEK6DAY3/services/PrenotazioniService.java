@@ -1,5 +1,6 @@
 package epicode.JAVASPRINGWEEK6DAY3.services;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import epicode.JAVASPRINGWEEK6DAY3.entities.Postazione;
 import epicode.JAVASPRINGWEEK6DAY3.entities.Prenotazione;
+import epicode.JAVASPRINGWEEK6DAY3.entities.User;
+import epicode.JAVASPRINGWEEK6DAY3.entities.payloads.PrenotazioneRegistrationPayload;
+import epicode.JAVASPRINGWEEK6DAY3.exceptions.BadRequestException;
 import epicode.JAVASPRINGWEEK6DAY3.exceptions.NotFoundException;
 import epicode.JAVASPRINGWEEK6DAY3.repositories.PrenotazioniRepository;
 
@@ -17,16 +22,27 @@ import epicode.JAVASPRINGWEEK6DAY3.repositories.PrenotazioniRepository;
 public class PrenotazioniService {
 	@Autowired
 	private PrenotazioniRepository prenotazioniRepo;
+	@Autowired
+	private PostazioniService postazioneService;
+	@Autowired
+	private UsersService userService;
 
-//	public Prenotazione create(UserRegistrationPayload u) {
-//		// TODO: check if email already exists
-//		usersRepo.findByEmail(u.getEmail()).ifPresent(user -> {
-//			throw new BadRequestException("Email " + user.getEmail() + " already in use!");
-//		});
-//		User newUser = new User(u.getName(), u.getSurname(), u.getEmail());
-//		return usersRepo.save(newUser);
-//	}
-//
+	public Prenotazione create(PrenotazioneRegistrationPayload p) {
+		Postazione postazione = postazioneService.findById(p.getPostazioneId());
+		prenotazioniRepo.findByPostazioneAndDataPrenotata(postazione, p.getDataPrenotata()).ifPresent(prenotazione -> {
+			throw new BadRequestException("Postazione " + p.getPostazioneId() + " already in use!");
+		});
+		LocalDate dueGiorniDopo = LocalDate.now().plusDays(2);
+		User user = userService.findById(p.getUserId());
+		if (p.getDataPrenotata().isAfter(dueGiorniDopo)) {
+			Prenotazione newPrenotazione = new Prenotazione(user, postazione, p.getDataPrenotata(), LocalDate.now());
+			return prenotazioniRepo.save(newPrenotazione);
+		} else {
+			throw new BadRequestException("Devono esserci almeno due giorni prima della data di presentazione.");
+		}
+
+	}
+
 	public Page<Prenotazione> find(int page, int size, String sortBy) {
 		if (size < 0)
 			size = 10;
