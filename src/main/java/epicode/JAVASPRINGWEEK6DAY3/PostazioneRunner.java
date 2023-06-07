@@ -37,8 +37,9 @@ public class PostazioneRunner implements CommandLineRunner {
 					int numeroMassimo = faker.number().numberBetween(1, 10);
 					int randomIndex = new Random().nextInt(edificiDB.size());
 					Edificio randomEdifici = edificiDB.get(randomIndex);
+
 					int randomTipopostazione = new Random().nextInt(TipoPostazione.values().length);
-					TipoPostazione tipo = TipoPostazione.values()[randomIndex];
+					TipoPostazione tipo = TipoPostazione.values()[randomTipopostazione];
 					Postazione postazione = new Postazione(descrizione, numeroMassimo, tipo, randomEdifici);
 					postazioniRepo.save(postazione);
 				} catch (Exception e) {
