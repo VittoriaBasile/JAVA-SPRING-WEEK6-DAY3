@@ -5,10 +5,18 @@ import java.util.UUID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
+@Table(name = "users")
 public class User {
 
 	@Id
@@ -20,5 +28,12 @@ public class User {
 	private Boolean active = true;
 
 	private String password;
+
+	public User(String username, String nome, String email, String password) {
+		this.username = username;
+		this.nome = nome;
+		this.email = email;
+		this.password = password;
+	}
 
 }

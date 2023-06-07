@@ -8,6 +8,7 @@ public class GestionePrenotazioni {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GestionePrenotazioni.class, args);
+
 	}
 
 }

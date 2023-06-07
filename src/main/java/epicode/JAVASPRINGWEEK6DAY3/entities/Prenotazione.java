@@ -9,14 +9,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import jakarta.persistence.Table;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
+@Table(name = "prenotazioni")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Prenotazione {
 
 	@Id
@@ -35,5 +39,12 @@ public class Prenotazione {
 	private LocalDate dataPrenotata;
 
 	private LocalDate dataPrenotazione;
+
+	public Prenotazione(User user, Postazione postazione, LocalDate dataPrenotata, LocalDate dataPrenotazione) {
+		this.user = user;
+		this.postazione = postazione;
+		this.dataPrenotata = dataPrenotata;
+		this.dataPrenotazione = dataPrenotazione;
+	}
 
 }
