@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JavaSpringWeek6Day3Application {
+public class GestionePrenotazioni {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JavaSpringWeek6Day3Application.class, args);
+		SpringApplication.run(GestionePrenotazioni.class, args);
 	}
 
 }
